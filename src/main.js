@@ -5,5 +5,14 @@ import store from './store'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import ECharts from 'vue-echarts'
+import '../vue.config'
 
-createApp(App).use(store).use(ElementPlus, {locale: zhCn,}).use(router).mount('#app')
+const app = createApp(App)
+
+app
+        .use(store)
+        .use(router)
+        .use(ElementPlus,{locale: zhCn,})
+        .component('v-chart', ECharts)
+        .mount('#app')

@@ -8,29 +8,14 @@
               router
       >
         <el-menu-item index="/index" style="font-size: 25px;">育知大学</el-menu-item>
-        <el-menu-item index="/index" style="margin-left: 7vw;">首页</el-menu-item>
-        <el-menu-item index="3" style="margin-left: 3vw;">校园概括</el-menu-item>
-        <el-menu-item index="4" style="margin-left: 3vw;">处理中心</el-menu-item>
-        <el-menu-item index="5" style="margin-left: 3vw;">校园位置</el-menu-item>
-        <el-sub-menu index="6" style="margin-left: 3vw;">
-          <template #title>我的工作台</template>
-          <el-menu-item index="2-1">选项1</el-menu-item>
-          <el-menu-item index="2-2">选项2</el-menu-item>
-          <el-menu-item index="2-3">选项3</el-menu-item>
-        </el-sub-menu>
-        <el-menu-item index="/checkCourse" style="margin-left: 3vw;">选课</el-menu-item>
-        <el-menu-item index="4" style="margin-left: 3vw;">订单管理</el-menu-item>
-        <el-menu-item style="margin-left: 6vw;" :index=router v-if="student==null && teacher==null">
+        <el-menu-item index="/index">首页</el-menu-item>
+        <el-menu-item index="/map">校园位置</el-menu-item>
+        <el-menu-item index="#" @click="security()">教师中心</el-menu-item>
+        <el-menu-item index="#1" @click="security()">学生中心</el-menu-item>
+        <el-menu-item index="#2" @click="security()">学习探讨室</el-menu-item>
+        <el-menu-item :index="router">
           <el-button type="primary" plain  @click="show = true,title='用户登录',state=false,getRouter()">登录</el-button>
         </el-menu-item>
-        <el-sub-menu :index=router v-if="null != student || null != teacher">
-          <template #title>
-            <span v-if="null != student" @click="getRouter" style="color: #3498db;font-size: 20px;">{{student.studentName}}</span>
-            <span v-if="null != teacher" @click="getRouter" style="color: #3498db;font-size: 20px;">{{teacher.teacherName}}</span>
-          </template>
-          <el-menu-item index="2-1">个人信息</el-menu-item>
-          <el-menu-item index="/index" @click="logout()">注销</el-menu-item>
-        </el-sub-menu>
       </el-menu>
     </div>
 
@@ -54,7 +39,7 @@
           <el-input v-model="roleForm.name"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="roleForm.password"></el-input>
+          <el-input type="password" v-model="roleForm.password"></el-input>
         </el-form-item>
           <el-link type="primary" style="margin-left: 7vw;font-size: 20px;" @click="title='重置密码',state=true">忘记密码？点击重置</el-link>
       <el-form-item style="margin-top: 1vh;margin-left: 3vw">
@@ -75,16 +60,21 @@
           <el-radio v-model="roleForm.role" label="1" border>教师</el-radio>
           <el-radio v-model="roleForm.role" label="2" border>学生</el-radio>
         </el-form-item>
-        <el-form-item label="邮箱" prop="name">
+        <el-form-item label="账号" prop="name">
           <el-input v-model="roleForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="验证码" prop="password">
-          <el-input v-model="roleForm.password"></el-input>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="roleForm.email" style="width: 210px;"></el-input>
+          <el-button type="primary" style="margin-left: 20px;" @click="sendEmail()">发送</el-button>
+        </el-form-item>
+        <el-form-item label="验证码" prop="code">
+          <el-input v-model="roleForm.code" style="width: 210px;"></el-input>
+          <el-button style="margin-left: 20px;" @click="resetForm('roleForm')">重置</el-button>
         </el-form-item>
         <el-link type="primary" style="margin-left: 9vw;font-size: 20px;" @click="title='用户登录',state=false">返回登录</el-link>
-        <el-form-item style="margin-top: 1vh;margin-left: 3vw">
-          <el-button type="success" @click="login('roleForm')">确 定</el-button>
-          <el-button type="primary" @click="resetForm('roleForm')">重 置</el-button>
+        <el-form-item style="margin-top: 1vh;margin-left: 5vw">
+          <el-button type="success" v-if="teacher.teacherPassword != ''" @click="go('roleForm')">确 定</el-button>
+          <el-button type="success" v-if="student.studentPassword != ''" @click="to('roleForm')">确 定</el-button>
         </el-form-item>
       </el-form>
       </div>
@@ -107,6 +97,9 @@
         roleForm:{},
         title:'',
         state:true,
+        teacher:{teacherPassword:''},
+        student:{studentPassword:''},
+        emailCode:'',
 
         rules: {
           role: [
@@ -118,17 +111,114 @@
           password: [
             { required: true, message: '不可为空', trigger: 'change' },
           ],
+          email: [
+            { required: true, message: '不可为空', trigger: 'change' },
+          ],
+          code: [
+            { required: true, message: '不可为空', trigger: 'change' },
+          ],
         },
-        student:JSON.parse(sessionStorage.getItem("student")),
-        teacher:JSON.parse(sessionStorage.getItem("teacher")),
       }
     },
     methods:{
+      sendEmail(){
+        if (this.roleForm.role == null || this.roleForm.role == ""){
+          ElMessage.error({
+            message: '请选择身份',
+            type: 'error'
+          });
+          return
+        }
+        if (this.roleForm.email == null || this.roleForm.email == ""){
+          ElMessage.error({
+            message: '请输入绑定邮箱',
+            type: 'error'
+          });
+          return
+        }
+        if (this.roleForm.role == 1){
+          if (this.roleForm.name == null || this.roleForm.name == ""){
+            ElMessage.error({
+              message: '请输入职工编号',
+              type: 'error'
+            });
+            return
+          }
+          request.get('/api/teacher/sendEmail',{
+            params:{
+              teacherNum:this.roleForm.name,
+              emailAddress:this.roleForm.email
+            }
+          }).then(res=>{
+            if (res.code == 0){
+              ElMessage.success({
+                message: res.message,
+                type: 'success'
+              });
+              this.emailCode = res.data.code
+              this.teacher = res.data
+            }else{
+              ElMessage.error({
+                message: res.message,
+                type: 'error'
+              });
+            }
+          })
+        }
+
+        if (this.roleForm.role == 2){
+          if (this.roleForm.name == null || this.roleForm.name == ""){
+            ElMessage.error({
+              message: '请输入学号',
+              type: 'error'
+            });
+            return
+          }
+          request.get('/api/student/sendEmail',{
+            params:{
+              studentNum:this.roleForm.name,
+              emailAddress:this.roleForm.email
+            }
+          }).then(res=>{
+            if (res.code == 0){
+              ElMessage.success({
+                message: res.message,
+                type: 'success'
+              });
+              this.emailCode = res.data.code
+              this.student = res.data
+            }else{
+              ElMessage.error({
+                message: res.message,
+                type: 'error'
+              });
+            }
+          })
+        }
+
+      },
+      security(){
+        if (this.student.studentPassword == '' && this.teacher.teacherPassword == ''){
+          this.$confirm('要先登录哦, 是否继续?', '提示', {
+            confirmButtonText: '去登录',
+            cancelButtonText: '取消',
+            type: 'warning',
+          })
+          .then(() => {
+            this.show = true
+            this.title='用户登录'
+            this.state=false
+          })
+          .catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消登录',
+            })
+          })
+        }
+      },
       getRouter(){
         this.router = this.$route.path
-      },
-      logout(){
-        sessionStorage.clear()
       },
       login(formName){
         this.$refs[formName].validate((valid) => {
@@ -148,6 +238,7 @@
                   //vue中提供了使用cookie域和session域的使用
                   sessionStorage.setItem("teacher",JSON.stringify(res.data))
                   this.show = false
+                  this.$router.push('/teacherHome')
                 }else{
                   ElMessage.error({
                     message: res.message,
@@ -169,6 +260,7 @@
                   });
                   sessionStorage.setItem("student",JSON.stringify(res.data))
                   this.show = false
+                  this.$router.push('/studentHome')
                 }else{
                   ElMessage.error({
                     message: res.message,
@@ -178,6 +270,60 @@
               })
             }
           } else {
+            return false
+          }
+        })
+      },
+      go(formName){
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            if (this.roleForm.code != this.emailCode){
+              ElMessage.error({
+                message: '验证码错误！',
+                type: 'error'
+              });
+              return ;
+            }
+            this.teacher.teacherPassword = '123'
+            request.put('/api/teacher/update',this.teacher).then(res=>{
+              if (res.code == 0){
+                ElMessage.success({
+                  message: '密码重置成功',
+                  type: 'success'
+                });
+                this.teacher = {teacherPassword: ''}
+                this.roleForm = {}
+              }
+            })
+
+          }else{
+            return false
+          }
+        })
+      },
+      to(formName){
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            if (this.roleForm.code != this.emailCode){
+              ElMessage.error({
+                message: '验证码错误！',
+                type: 'error'
+              });
+              return ;
+            }
+            this.student.studentPassword = '123'
+            request.put('/api/student/update',this.student).then(res=>{
+              if (res.code == 0){
+                ElMessage.success({
+                  message: '密码重置成功',
+                  type: 'success'
+                });
+                this.student = {studentPassword: ''}
+                this.roleForm = {}
+              }
+            })
+
+          }else{
             return false
           }
         })
@@ -194,9 +340,9 @@
   width: 1500px;
   margin-left: 10vw;
 }
-  .el-sub-menu,
   .el-menu-item{
     font-family: 'Adobe 黑体 Std R';
+    margin-right: 7vw;
   }
 
   .el-input{

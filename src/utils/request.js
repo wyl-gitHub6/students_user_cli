@@ -1,7 +1,7 @@
 import axios from 'axios'
 import router from '../router'
 const request = axios.create({
-  timeout: 5000  //超时时间
+  timeout: 60000 //超时时间
 })
 
 

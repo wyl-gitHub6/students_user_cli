@@ -1,7 +1,4 @@
 <template>
-    <el-row>
-
-    </el-row>
 
   <el-steps :active=num align-center>
     <el-step
@@ -30,17 +27,14 @@
         <img :src="item.courseImg" class="image" />
         <h2>{{item.courseName}}</h2>
         <el-row>
-          <el-col :span="12" :offset="12">
-            <el-tag>开始日期</el-tag>
-            <el-tag>{{ item.startTime }}</el-tag>
+          <el-col :span="12" :offset="6">
+            <el-tag>课程周期：{{ item.startTime }} - {{item.endTime}}</el-tag>
           </el-col>
-          <el-col :span="12" :offset="12">
-            <el-tag>结束日期</el-tag>
-            <el-tag>{{item.endTime}}</el-tag>
+          <el-col :span="12" :offset="6">
+            <el-tag>授课教师：{{item.teacher.teacherName}}</el-tag>
           </el-col>
-          <el-col :span="12" :offset="12">
-            <el-tag>授课教师</el-tag>
-            <el-tag>{{item.teacher.teacherName}}</el-tag>
+          <el-col :span="12" :offset="6">
+            <el-tag>限制人数：{{item.number}}</el-tag>
           </el-col>
         </el-row>
         <el-divider></el-divider>
@@ -62,6 +56,7 @@
         currentDate: new Date(),
         courseList:[],
         num:1,
+        student:JSON.parse(sessionStorage.getItem("student")),
       }
     },
     methods:{
@@ -73,7 +68,7 @@
         }).then(() => {
          request.get('/api/score/insert',{
            params:{
-             studentId:2,
+             studentId:this.student.studentId,
              courseId:courseId
            }
          }).then(res=>{

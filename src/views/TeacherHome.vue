@@ -1,5 +1,5 @@
 <template>
-    <Header/>
+    <TeacherHeader/>
     <el-scrollbar ref="scrollbar" height="800px" always @scroll="scroll" style="display: flex">
       <div ref="inner">
         <el-main>
@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import Header from "../components/Header";
+import TeacherHeader from "../components/TeacherHeader";
 export default {
-  name: 'Home',
+  name: 'TeacherHome',
   components:{
-    Header
+    TeacherHeader
   },
   data(){
     return{
