@@ -26,32 +26,46 @@ const routes = [
     redirect: '/teacher',
     children: [
       {
-        path: '/teacherMap',
-        component:()=>import('../views/AddMap')
-      },
-      {
         path: '/teacherChat',
-        component:()=>import('../views/TeacherChat')
+        component:()=>import('../views/TeacherChat'),
+        meta:{
+          requireAuth: true
+        }
       },
       {
         path: '/score',
-        component:()=>import('../views/Score')
+        component:()=>import('../views/Score'),
+        meta:{
+          requireAuth: true
+        }
       },
       {
         path: '/teacher',
-        component:()=>import('../views/Teacher')
+        component:()=>import('../views/Teacher'),
+        meta:{
+          requireAuth: true
+        }
       },
       {
         path: '/findClasses',
-        component:()=>import('../views/FindClasses')
+        component:()=>import('../views/FindClasses'),
+        meta:{
+          requireAuth: true
+        }
       },
       {
         path: '/statistical',
-        component:()=>import('../views/ScoreStatistical')
+        component:()=>import('../views/ScoreStatistical'),
+        meta:{
+          requireAuth: true
+        }
       },
       {
         path: '/teacherInfo',
-        component:()=>import('../views/TeacherInfo')
+        component:()=>import('../views/TeacherInfo'),
+        meta:{
+          requireAuth: true
+        }
       },
     ]
   },
@@ -61,32 +75,46 @@ const routes = [
     redirect: '/student',
     children: [
       {
-        path: '/studentMap',
-        component:()=>import('../views/AddMap')
-      },
-      {
         path: '/studentChat',
-        component:()=>import('../views/StudentChat')
+        component:()=>import('../views/StudentChat'),
+        meta:{
+          requireAuth: true
+        }
       },
       {
         path: '/checkCourse',
-        component:()=>import('../views/CheckCourse')
+        component:()=>import('../views/CheckCourse'),
+        meta:{
+          requireAuth: true
+        }
       },
       {
         path: '/student',
-        component:()=>import('../views/Student')
+        component:()=>import('../views/Student'),
+        meta:{
+          requireAuth: true
+        }
       },
       {
         path: '/findScore',
-        component:()=>import('../views/FindScore')
+        component:()=>import('../views/FindScore'),
+        meta:{
+          requireAuth: true
+        }
       },
       {
         path: '/studentInfo',
-        component:()=>import('../views/StudentInfo')
+        component:()=>import('../views/StudentInfo'),
+        meta:{
+          requireAuth: true
+        }
       },
       {
         path: '/findCourse',
-        component:()=>import('../views/FindCourse')
+        component:()=>import('../views/FindCourse'),
+        meta:{
+          requireAuth: true
+        }
       },
     ]
   },
@@ -95,6 +123,21 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(res => res.meta.requireAuth)) {// 判断是否需要登录权限
+    if (sessionStorage.getItem("teacher") || sessionStorage.getItem("student")) {// 判断是否登录
+      next()
+    } else {// 没登录则跳转到首页
+      next({
+        path: '/index',
+        query: {redirect: to.fullPath}
+      })
+    }
+  } else {
+    next()
+  }
 })
 
 export default router

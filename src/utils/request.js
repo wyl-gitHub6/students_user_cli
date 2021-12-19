@@ -1,5 +1,4 @@
 import axios from 'axios'
-import router from '../router'
 const request = axios.create({
   timeout: 60000 //超时时间
 })
@@ -9,11 +8,6 @@ const request = axios.create({
 request.interceptors.request.use(config => {
   //请求头的编码格式
   config.headers['Content-Type'] = 'application/json;charset=utf-8';
-
-  //广阔天地，大有作为！！！
-  /*if(null == sessionStorage.getItem("user")){
-    router.push('/')
-  }*/
 
   return config
 }, error => {
