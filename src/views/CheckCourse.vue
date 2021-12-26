@@ -61,29 +61,39 @@
     },
     methods:{
       check(courseName,courseId){
-        this.$confirm('确认学习<<'+courseName+'>>这门课程吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-         request.get('/api/score/insert',{
-           params:{
-             studentId:this.student.studentId,
-             courseId:courseId
-           }
-         }).then(res=>{
-           if (res.code == 0){
-             ElMessage.success({
-               message: res.message,
-               type: 'success'
-             });
-           }else{
-             ElMessage.error({
-               message: res.message,
-               type: 'error'
-             });
-           }
-         })
+        request.get('/api/task/checkCourse').then(res=>{
+          if (res.data == 1){
+            ElMessage.success({
+              message: res.message,
+              type: 'success'
+            });
+            this.courseList = []
+            return
+          }
+          this.$confirm('确认学习<<'+courseName+'>>这门课程吗?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            request.get('/api/score/insert',{
+              params:{
+                studentId:this.student.studentId,
+                courseId:courseId
+              }
+            }).then(res=>{
+              if (res.code == 0){
+                ElMessage.success({
+                  message: res.message,
+                  type: 'success'
+                });
+              }else{
+                ElMessage.error({
+                  message: res.message,
+                  type: 'error'
+                });
+              }
+            })
+          })
         })
       },
       load(){
@@ -95,6 +105,17 @@
           this.courseList = res.data
         })
       },
+      start(){
+        request.get('/api/task/checkCourse').then(res=>{
+          if (res.data == 0){
+            this.load()
+          }
+          ElMessage.success({
+            message: res.message,
+            type: 'success'
+          });
+        })
+      }
     },
     mounted() {
       setInterval(() => {
@@ -107,7 +128,7 @@
       }, 2000)
     },
     created() {
-      this.load()
+      this.start()
     }
   }
 
