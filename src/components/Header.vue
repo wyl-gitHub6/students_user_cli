@@ -69,7 +69,7 @@
         </el-form-item>
         <el-form-item label="验证码" prop="code">
           <el-input v-model="roleForm.code" style="width: 210px;"></el-input>
-          <el-button style="margin-left: 20px;" @click="resetForm('roleForm')">重置</el-button>
+          <el-button type="primary" style="margin-left: 20px;" @click="resetForm('roleForm')">重置</el-button>
         </el-form-item>
         <el-link type="primary" style="margin-left: 9vw;font-size: 20px;" @click="title='用户登录',state=false">返回登录</el-link>
         <el-form-item style="margin-top: 1vh;margin-left: 5vw">
@@ -292,7 +292,7 @@
                   type: 'success'
                 });
                 this.teacher = {teacherPassword: ''}
-                this.roleForm = {}
+                this.resetForm('roleForm')
               }
             })
 
@@ -319,7 +319,7 @@
                   type: 'success'
                 });
                 this.student = {studentPassword: ''}
-                this.roleForm = {}
+                this.resetForm('roleForm')
               }
             })
 
@@ -341,7 +341,7 @@
   margin-left: 10vw;
 }
   .el-menu-item{
-    font-family: 'Adobe 黑体 Std R';
+    font-family: 'Adobe 黑体 Std R',serif;
     margin-right: 7vw;
   }
 

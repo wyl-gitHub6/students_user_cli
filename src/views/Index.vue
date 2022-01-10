@@ -17,7 +17,7 @@
             <el-timeline>
               <el-timeline-item timestamp="2021/12/12" placement="top">
                 <el-card>
-                  <h4>我校与市有关单位联合举办的2021年度赤峰市“巴林石雕”传承人群研修研习培训班开始</h4>
+                  <h4>我校与市有关单位联合举办的2021年度“巴林石雕”传承人群研修研习培训班开始</h4>
                   <p>2021/12/12 20:46</p>
                 </el-card>
               </el-timeline-item>
@@ -29,7 +29,7 @@
               </el-timeline-item>
               <el-timeline-item timestamp="2021/12/6" placement="top">
                 <el-card>
-                  <h4>内蒙古民族大学副校长陈英松一行到我校附属医院考察交流并续签“研究生校外联合培养“</h4>
+                  <h4>校友一行到我校附属医院考察交流并续签“研究生校外联合培养“</h4>
                   <p>2021/12/6 20:46</p>
                 </el-card>
               </el-timeline-item>
@@ -52,7 +52,7 @@
             </div>
           </template>
           <div class="text item">
-            <h4><i class="el-icon-info"></i>&nbsp;关于举办赤峰学院“校长杯”秋季大学生五人制足球比赛通知</h4><p>2021/12/11</p>
+            <h4><i class="el-icon-info"></i>&nbsp;关于举办“校长杯”秋季大学生五人制足球比赛的通知</h4><p>2021/12/11</p>
           </div>
           <div class="text item">
             <h4><i class="el-icon-info"></i>&nbsp;图书馆关于再次征询纸质图书采购意见的通知</h4><p>2021/12/9</p>

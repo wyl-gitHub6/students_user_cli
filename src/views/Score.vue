@@ -100,7 +100,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="studentCard" label="身份证号" width="170px;"> </el-table-column>
-        <el-table-column prop="studentEmail" label="邮箱"> </el-table-column>
+        <el-table-column prop="studentEmail" label="邮箱" width="170px;"> </el-table-column>
         <el-table-column prop="studentPhone" label="手机号" > </el-table-column>
         <el-table-column prop="classes.classesName" label="所在班级">
           <template #default="scope">
@@ -258,7 +258,8 @@
             PDF.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight)
           } else {
             while (leftHeight > 0) {
-              PDF.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+              //arg3-->距离左边距;arg4-->距离上边距;arg5-->宽度;arg6-->高度
+              PDF.addImage(pageData, 'JPEG', 50, 50, imgWidth, imgHeight)
               leftHeight -= pageHeight
               position -= 841.89
               if (leftHeight > 0) {

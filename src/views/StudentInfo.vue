@@ -153,11 +153,6 @@
     },
     methods:{
       load() {
-        this.college = this.stu.classes.grade.professional.college.collegeName
-        this.professional = this.stu.classes.grade.professional.professionalName
-        this.grade = this.stu.classes.grade.gradeName
-        this.classes = this.stu.classes.classesName
-
         request.get('/api/student/findById',{
           params:{
             studentId:this.stu.studentId
@@ -170,6 +165,19 @@
             console.log(res.message)
           }
         })
+
+        if  (this.stu.classes == null || this.stu.classes.classesId == 0){
+          ElMessage.error({
+            message: "尚未分班",
+            type: 'error'
+          });
+          return
+        }
+        this.college = this.stu.classes.grade.professional.college.collegeName
+        this.professional = this.stu.classes.grade.professional.professionalName
+        this.grade = this.stu.classes.grade.gradeName
+        this.classes = this.stu.classes.classesName
+
       },
       edit(formName){
         this.$refs[formName].validate((valid) => {
