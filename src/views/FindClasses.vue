@@ -51,14 +51,14 @@
       <el-table-column prop="studentName" label="姓名"> </el-table-column>
       <el-table-column prop="studentAge" label="年龄"> </el-table-column>
       <el-table-column prop="studentNational" label="民族"> </el-table-column>
-      <el-table-column prop="studentSex" label="性别">
+      <el-table-column prop="studentSex" label="性别" width="100px;">
         <template #default="scope">
           <span v-if="scope.row.studentSex == 0" style="color: #20a0ff">男</span>
           <span v-if="scope.row.studentSex == 1" style="color: #1abc9c">女</span>
         </template>
       </el-table-column>
       <el-table-column prop="studentCard" label="身份证号" width="170px;"> </el-table-column>
-      <el-table-column prop="studentEmail" label="邮箱"> </el-table-column>
+      <el-table-column prop="studentEmail" label="邮箱" width="170px;"> </el-table-column>
       <el-table-column prop="studentPhone" label="手机号" > </el-table-column>
       <el-table-column align="right">
         <template #header>
@@ -89,6 +89,7 @@
     },
     methods:{
       findStudent(val){
+        this.studentTable = []
         request.get('/api/student/findByClassesId',{
           params:{
             classesId:val

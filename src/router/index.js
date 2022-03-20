@@ -54,8 +54,15 @@ const routes = [
         }
       },
       {
-        path: '/statistical',
+        path: '/scoreStatistical',
         component:()=>import('../views/ScoreStatistical'),
+        meta:{
+          requireAuth: true
+        }
+      },
+      {
+        path: '/creditStatistical',
+        component:()=>import('../views/CreditStatistical'),
         meta:{
           requireAuth: true
         }

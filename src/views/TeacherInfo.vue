@@ -3,7 +3,7 @@
     <template #header>
       <div class="card-header">
         <span>教师信息</span>
-        <el-button type="primary" plain @click="model = true">编辑信息</el-button>
+        <el-button type="primary" plain @click="model = true,toEdit()">编辑信息</el-button>
       </div>
     </template>
     <el-descriptions column="3" border>
@@ -144,8 +144,20 @@
           }
         }).then(res=>{
           if (res.code == 0){
-            this.teacher_form = res.data
             this.teacher = res.data
+          }else{
+            console.log(res.message)
+          }
+        })
+      },
+      toEdit(){
+         request.get('/api/teacher/findById',{
+          params:{
+            teacherId:this.tea.teacherId
+          }
+        }).then(res=>{
+          if (res.code == 0){
+            this.teacher_form = res.data
           }else{
             console.log(res.message)
           }

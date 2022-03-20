@@ -131,7 +131,7 @@
       >
         <el-table-column prop="student.studentNum" label="学生学号"> </el-table-column>
         <el-table-column prop="student.studentName" label="学生姓名"> </el-table-column>
-        <el-table-column prop="course.courseName" label="课程名称"> </el-table-column>
+        <el-table-column prop="course.courseName" label="课程名称" width="200px"> </el-table-column>
         <el-table-column prop="course.courseCredit" label="课程学分"> </el-table-column>
         <el-table-column prop="usualGrade" label="平时成绩">
           <template #default="scope">

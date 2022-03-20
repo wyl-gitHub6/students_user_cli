@@ -108,7 +108,7 @@
       <h1><el-tag>教育部</el-tag></h1>
       <h1><el-tag>内蒙古教育厅</el-tag></h1>
       <h1><el-tag>中国教育科研网</el-tag></h1>
-      <h1><el-tag>赤峰学院学报</el-tag></h1>
+      <h1><el-tag>校园学报</el-tag></h1>
       <h1><el-tag>图书馆</el-tag></h1>
       <h1><el-tag>就业网</el-tag></h1>
     </div>

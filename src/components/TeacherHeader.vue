@@ -12,7 +12,8 @@
           <span v-html="$options.filters.formatDate(date)"></span>
         </el-menu-item>
         <el-menu-item index="/score" style="margin-left: -40px;">成绩录入</el-menu-item>
-        <el-menu-item index="/statistical">成绩统计</el-menu-item>
+        <el-menu-item index="/scoreStatistical">成绩统计</el-menu-item>
+        <el-menu-item index="/creditStatistical">学分统计</el-menu-item>
         <el-menu-item index="/findClasses">所带班级</el-menu-item>
         <el-menu-item index="/teacherChat">学习探讨室</el-menu-item>
         <el-menu-item index="/teacherInfo">教师信息</el-menu-item>
@@ -94,6 +95,6 @@
 }
 .el-menu-item{
   font-family: 'Adobe 黑体 Std R',serif;
-  margin-right: 5vw;
+  margin-right: 3.7vw;
 }
 </style>

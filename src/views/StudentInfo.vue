@@ -3,7 +3,7 @@
     <template #header>
       <div class="card-header">
         <span>学生信息</span>
-        <el-button type="primary" plain @click="model = true">编辑信息</el-button>
+        <el-button type="primary" plain @click="model = true,toEdit()">编辑信息</el-button>
       </div>
     </template>
     <el-descriptions column="3" border>
@@ -159,7 +159,6 @@
           }
         }).then(res=>{
           if (res.code == 0){
-            this.student_form = res.data
             this.student = res.data
           }else{
             console.log(res.message)
@@ -178,6 +177,19 @@
         this.grade = this.stu.classes.grade.gradeName
         this.classes = this.stu.classes.classesName
 
+      },
+      toEdit(){
+        request.get('/api/student/findById',{
+          params:{
+            studentId:this.stu.studentId
+          }
+        }).then(res=>{
+          if (res.code == 0){
+            this.student_form = res.data
+          }else{
+            console.log(res.message)
+          }
+        })
       },
       edit(formName){
         this.$refs[formName].validate((valid) => {
