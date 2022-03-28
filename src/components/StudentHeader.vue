@@ -18,7 +18,7 @@
         <el-menu-item index="/studentInfo">学生信息</el-menu-item>
         <el-sub-menu :index="router">
           <template #title>
-            <span @click="getRouter" style="color: #3498db;">{{student.studentName}}</span>
+            <span @click="getRouter" style="color: #3498db;font-size: 20px;">{{student.studentName}}</span>
           </template>
           <el-menu-item style="margin:0" index="/student">账号信息</el-menu-item>
           <el-menu-item style="margin:0" index="/index" @click="logout()">注销</el-menu-item>
@@ -64,7 +64,7 @@
     },
     beforeDestroy() {
       if (this.timer) {
-        clearInterval(this.timer); // 在Vue实例销毁前，清除我们的定时器
+        clearInterval(this.timer); // 在Vue实例销毁前，清除定时器
       }
     },
     filters: {

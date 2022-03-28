@@ -1,3 +1,10 @@
+<!--
+ * @Description: 学生选课
+ * @Author: wyl
+ * @Date: 2021-10-17 20:37:32
+ * @LastEditors: wyl
+ * @LastEditTime: 2022-03-26 23:34:24
+-->
 <template>
 
   <el-steps :active=num align-center>
@@ -20,7 +27,7 @@
       <el-tooltip
               class="item"
               effect="dark"
-              content="快来学习我吧~~"
+              content="快来学习吧~~"
               placement="top"
       >
       <el-card shadow="hover" :body-style="{ padding: '10px'}">
@@ -33,8 +40,11 @@
           <el-col :span="12" :offset="6">
             <el-tag>授课教师：{{item.teacher.teacherName}}</el-tag>
           </el-col>
-          <el-col :span="12" :offset="6">
+          <el-col :span="6" :offset="6">
             <el-tag>限制人数：{{item.number}}</el-tag>
+          </el-col>
+          <el-col :span="6" :offset="3">
+            <el-tag>已选人数：{{item.checkNumber}}</el-tag>
           </el-col>
         </el-row>
         <el-divider></el-divider>
@@ -140,7 +150,6 @@
   .el-card{
     width: 300px;
     height: 500px;
-    /*margin-left: 55px;*/
     margin-left: 230px;
     margin-top: 25px;
     border: #74b9ff solid 1px;

@@ -1,3 +1,11 @@
+<!--
+ * @Description: 教师信息
+ * @Author: Wangyl
+ * @Date: 2021-11-27 12:30:01
+ * @LastEditors: Wangyl
+ * @LastEditTime: 2022-03-27 00:00:38
+-->
+
 <template>
   <el-card shadow="hover">
     <template #header>
@@ -39,6 +47,9 @@
                ref="ruleForm">
 
         <el-input v-model="teacher_form.teacherId" v-if="isShow"></el-input>
+        <el-form-item label="职工编号" prop="teacherNum">
+          <el-input v-model="teacher_form.teacherNum" readonly></el-input>
+        </el-form-item>
         <el-form-item label="姓名" prop="teacherName">
           <el-input v-model="teacher_form.teacherName"></el-input>
         </el-form-item>

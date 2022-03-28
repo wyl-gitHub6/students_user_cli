@@ -1,3 +1,11 @@
+<!--
+ * @Description: 查看课程信息
+ * @Author: Wangyl
+ * @Date: 2021-11-21 20:50:57
+ * @LastEditors: Wangyl
+ * @LastEditTime: 2022-03-28 21:34:43
+-->
+
 <template>
 
   <el-card shadow="hover">

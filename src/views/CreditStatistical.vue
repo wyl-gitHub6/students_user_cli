@@ -1,3 +1,11 @@
+<!--
+ * @Description: 学分统计图
+ * @Author: wyl
+ * @Date: 2022-03-17 21:37:54
+ * @LastEditors: wyl
+ * @LastEditTime: 2022-03-26 23:10:29
+-->
+
 <template>
   <v-chart class="chart" :option="option" />
 </template>
@@ -43,10 +51,21 @@
         tooltip: {},
         xAxis: {
             type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            axisLine: {
+              lineStyle:{
+                color:'#9b59b6',
+                width:5
+              }
+            }
           },
         yAxis: {
-            type: 'value'
+            type: 'value',
+            axisLine: {
+              lineStyle:{
+                color:'#9b59b6',
+              }
+            }
           },
         series: [
           {
@@ -72,6 +91,7 @@
       return { option,teacher };
     },
     methods:{
+
       load(){
         request.get("/api/score/findCreditStatistical/"+this.teacher.teacherId).then(res=>{
           if (res.code == 0){

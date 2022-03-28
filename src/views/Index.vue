@@ -1,3 +1,11 @@
+<!--
+ * @Description: 用户系统首页面
+ * @Author: wyl
+ * @Date: 2021-10-17 15:37:42
+ * @LastEditors: wyl
+ * @LastEditTime: 2022-03-26 23:32:49
+-->
+
 <template>
     <el-carousel indicator-position="outside">
       <el-carousel-item v-for="item in images" :key="item">

@@ -1,3 +1,11 @@
+<!--
+ * @Description: 首页头部导航栏
+ * @Author: Wangyl
+ * @Date: 2021-10-16 21:55:07
+ * @LastEditors: Wangyl
+ * @LastEditTime: 2022-03-26 23:52:48
+-->
+
 <template>
   <el-header>
     <div class="header">
@@ -7,7 +15,7 @@
               mode="horizontal"
               router
       >
-        <el-menu-item index="/index" style="font-size: 25px;">育知大学</el-menu-item>
+        <el-menu-item index="/main" style="font-size: 25px;">育知大学</el-menu-item>
         <el-menu-item index="/index">首页</el-menu-item>
         <el-menu-item index="/map">校园位置</el-menu-item>
         <el-menu-item index="#" @click="security()">教师中心</el-menu-item>
@@ -91,7 +99,7 @@
     name: "Header",
     data(){
       return{
-        activeIndex: '/index',
+        activeIndex: '/main',
         show:false,
         router:'',
         roleForm:{},

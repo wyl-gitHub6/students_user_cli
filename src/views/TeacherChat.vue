@@ -1,3 +1,11 @@
+<!--
+ * @Description: 教师在线学习室
+ * @Author: Wangyl
+ * @Date: 2021-11-20 15:42:12
+ * @LastEditors: Wangyl
+ * @LastEditTime: 2022-03-28 21:36:14
+-->
+
 <template>
   <el-row>
     <el-col :span="6">

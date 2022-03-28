@@ -1,3 +1,10 @@
+<!--
+ * @Description: 教师按必修课或选修课录入学生成绩
+ * @Author: wyl
+ * @Date: 2021-11-06 13:26:27
+ * @LastEditors: wyl
+ * @LastEditTime: 2022-03-26 23:33:24
+-->
 <template>
   <div>
     <el-row>
@@ -119,6 +126,7 @@
       </el-table>
     </el-dialog>
 
+    <!-- 查看成绩弹窗 -->
     <el-dialog v-model="scoreShow" width="70%" center>
       <template #title>
         <div>
@@ -232,6 +240,7 @@
       }
     },
     methods:{
+      /*导出成绩*/
       exportFile(idStr, title){
         html2Canvas(document.querySelector('#' + idStr), {
           // allowTaint: true,

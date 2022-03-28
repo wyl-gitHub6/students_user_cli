@@ -1,3 +1,11 @@
+<!--
+ * @Description: 成绩统计图
+ * @Author: wyl
+ * @Date: 2021-11-27 11:56:22
+ * @LastEditors: Wangyl
+ * @LastEditTime: 2022-03-27 00:01:06
+-->
+
 <template>
   <v-chart class="chart" :option="option" />
 </template>
@@ -45,9 +53,21 @@
           data:['优秀','良好','及格','不及格']
         },
         xAxis: {
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          axisLine: {
+              lineStyle:{
+                color:'#34495e',
+                width:1
+              }
+            }
         },
-        yAxis: {},
+        yAxis: {
+          axisLine: {
+              lineStyle:{
+                color:'#34495e',
+              }
+            }
+        },
         series: [
           {
             name:'优秀',
@@ -78,7 +98,6 @@
     methods:{
       load(){
         request.get('/api/score/statistical/'+this.teacher.teacherId).then(res=>{
-          console.log(res.data)
           this.option.xAxis.data = res.data.courseName
           this.option.series[0].data = res.data.yx
           this.option.series[1].data = res.data.lh

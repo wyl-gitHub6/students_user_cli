@@ -1,3 +1,11 @@
+<!--
+ * @Description: 查看班级信息
+ * @Author: Wangyl
+ * @Date: 2021-11-24 22:18:46
+ * @LastEditors: Wangyl
+ * @LastEditTime: 2022-03-28 21:34:28
+-->
+
 <template>
 
   <el-card shadow="hover">

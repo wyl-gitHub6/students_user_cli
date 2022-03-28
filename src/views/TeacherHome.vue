@@ -1,3 +1,11 @@
+<!--
+ * @Description: 教师主页面
+ * @Author: Wangyl
+ * @Date: 2021-11-17 23:01:00
+ * @LastEditors: Wangyl
+ * @LastEditTime: 2022-03-28 21:36:26
+-->
+
 <template>
     <TeacherHeader/>
     <el-scrollbar ref="scrollbar" height="800px" always @scroll="scroll" style="display: flex">

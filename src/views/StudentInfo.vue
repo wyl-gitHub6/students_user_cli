@@ -1,3 +1,11 @@
+<!--
+ * @Description: 学生信息
+ * @Author: Wangyl
+ * @Date: 2021-11-21 20:05:48
+ * @LastEditors: Wangyl
+ * @LastEditTime: 2022-03-26 23:57:15
+-->
+
 <template>
   <el-card shadow="hover">
     <template #header>
@@ -44,10 +52,8 @@
                ref="ruleForm">
 
         <el-input v-model="student_form.studentId" v-if="isShow"></el-input>
-        <el-form-item label="学号" prop="studentNum" :rules="[
-                { required: true, message: '不能为空'},
-                { type: 'number', message: '学号为数字值'}]">
-          <el-input v-model.number="student_form.studentNum"></el-input>
+        <el-form-item label="学号" prop="studentNum">
+          <el-input v-model.number="student_form.studentNum" readonly></el-input>
         </el-form-item>
         <el-form-item label="姓名" prop="studentName">
           <el-input v-model="student_form.studentName"></el-input>

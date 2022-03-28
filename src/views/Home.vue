@@ -1,3 +1,10 @@
+<!--
+ * @Description: 系统主页面
+ * @Author: wyl
+ * @Date: 2021-10-16 21:44:42
+ * @LastEditors: wyl
+ * @LastEditTime: 2022-03-26 23:30:27
+-->
 <template>
     <Header/>
     <el-scrollbar ref="scrollbar" height="800px" always @scroll="scroll" style="display: flex">
@@ -7,7 +14,7 @@
             <router-view/>
           </div>
         </el-main>
-        <el-footer>版权所有：育知大学</el-footer>
+        <el-footer>版权所有：育知大学 2021-2022</el-footer>
        </div>
     </el-scrollbar>
 </template>
