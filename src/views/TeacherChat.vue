@@ -3,7 +3,7 @@
  * @Author: Wangyl
  * @Date: 2021-11-20 15:42:12
  * @LastEditors: Wangyl
- * @LastEditTime: 2022-03-28 21:36:14
+ * @LastEditTime: 2022-04-13 22:42:29
 -->
 
 <template>
@@ -16,9 +16,7 @@
         <input  v-if="show" type="text" v-model="username">
         <br>
         <div>
-          <el-button type="primary" plain @click="intoWebSocket()" style="margin-left: 55px;">进入学习室</el-button>
-          <el-button type="info" plain style="margin-left: 131px;">当前在线人数：{{number}}</el-button>
-          <el-button type="danger" plain @click="closeWebSocket()" style="margin-left: 131px;">退出学习室</el-button>
+          <el-button type="info" plain style="margin-left: 15vw;">当前在线人数：{{number}}</el-button>
         </div>
         <br>
         <div class="bg-purple-light" style="border:1px solid #387eb0;height: 500px;">
@@ -31,7 +29,7 @@
             <div v-for="(item,index) in message">
               <div class="el-row" style="padding: 5px 0">
                 <div class="el-col-24" :style="ids[index] == teacher.teacherNum?'text-align: right;':'text-align: left;'">
-                  <span>{{user[index]}}</span>
+                  <span class="person">{{user[index]}}</span>
                   <p class="msg" :style="ids[index] == teacher.teacherNum?'background:#1abc9c;':'background:#ef8201;'">
                     {{ item }}
                   </p>
@@ -86,7 +84,9 @@
     methods: {
       load(){
         this.username = this.teacher.teacherNum+',教师 '+this.teacher.teacherName
+        this.intoWebSocket()
       },
+      //发送消息
       setMessageInnerHTML(innerHTML) {
         let _this = this;
         let res = JSON.parse(innerHTML)
@@ -113,11 +113,8 @@
         }
         this.count--
         this.websocket.close();
-        let interval = setInterval(()=>{
-          this.intoMessage = []
-          this.outMessage = []
-          clearInterval(interval)
-        },1500)
+        this.intoMessage = []
+        this.outMessage = []
       },
       //发送消息
       send() {
@@ -151,7 +148,8 @@
         this.count++
         //判断当前浏览器是否支持WebSocket
         if ('WebSocket' in window) {
-          this.websocket = new WebSocket("ws://localhost:8080/websocket/" + this.username);
+          //this.websocket = new WebSocket("ws://localhost:8080/websocket/" + this.username);
+           this.websocket = new WebSocket("ws://192.168.153.133:9000/websocket/" + this.username);
         } else {
           alert('Not support websocket')
         }
@@ -179,7 +177,19 @@
     },
     created(){
       this.load()
-    }
+    },
+    /**
+     * @Author: Wangyl
+     * @msg: 监听页面离开  关闭连接 
+     * @param {*} to
+     * @param {*} from
+     * @param {*} next
+     * @return {*}
+     */    
+    beforeRouteLeave(to, from, next) {
+      this.closeWebSocket()
+      next()
+    },
   }
 </script>
 
@@ -203,7 +213,7 @@
   .sysMsg{
     width: 200px;
     text-align: center;
-    margin: 0 auto;
+    margin: 10px auto;
     background: blueviolet;
     border-radius:10px;
     color:#fff;
@@ -211,6 +221,11 @@
     border: 1px solid transparent;
     font-weight: 800;
     font-size:80%
+  }
+  .person{
+    background:#3498db;
+    border-radius:10px;
+    padding:5px
   }
 
 </style>

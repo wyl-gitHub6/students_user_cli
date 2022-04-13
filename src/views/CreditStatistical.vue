@@ -1,9 +1,9 @@
 <!--
  * @Description: 学分统计图
- * @Author: wyl
+ * @Author: Wangyl
  * @Date: 2022-03-17 21:37:54
- * @LastEditors: wyl
- * @LastEditTime: 2022-03-26 23:10:29
+ * @LastEditors: Wangyl
+ * @LastEditTime: 2022-04-13 22:43:23
 -->
 
 <template>
@@ -51,7 +51,7 @@
         tooltip: {},
         xAxis: {
             type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            data: [],
             axisLine: {
               lineStyle:{
                 color:'#9b59b6',
@@ -69,20 +69,7 @@
           },
         series: [
           {
-            data: [
-              120,
-              {
-                value: 200,
-                itemStyle: {
-                  color: '#a90000'
-                },
-              },
-              150,
-              80,
-              70,
-              110,
-              130
-            ],
+            data: [],
             type: 'bar'
           }
         ]

@@ -1,9 +1,9 @@
 <!--
  * @Description: 成绩统计图
- * @Author: wyl
+ * @Author: Wangyl
  * @Date: 2021-11-27 11:56:22
  * @LastEditors: Wangyl
- * @LastEditTime: 2022-03-27 00:01:06
+ * @LastEditTime: 2022-04-13 22:38:09
 -->
 
 <template>
@@ -53,7 +53,7 @@
           data:['优秀','良好','及格','不及格']
         },
         xAxis: {
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: [],
           axisLine: {
               lineStyle:{
                 color:'#34495e',
@@ -72,22 +72,22 @@
           {
             name:'优秀',
             type: 'bar',
-            data: [23, 24, 18, 25, 27, 28, 25]
+            data: []
           },
           {
             name:'良好',
             type: 'bar',
-            data: [26, 24, 18, 22, 23, 20, 27]
+            data: []
           },
           {
             name:'及格',
             type: 'bar',
-            data: [23, 24, 18, 25, 27, 28, 25]
+            data: []
           },
           {
             name:'不及格',
             type: 'bar',
-            data: [26, 24, 18, 22, 23, 20, 27]
+            data: []
           }
         ]
 

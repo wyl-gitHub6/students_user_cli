@@ -1,9 +1,9 @@
 <!--
  * @Description: 教师按必修课或选修课录入学生成绩
- * @Author: wyl
+ * @Author: Wangyl
  * @Date: 2021-11-06 13:26:27
- * @LastEditors: wyl
- * @LastEditTime: 2022-03-26 23:33:24
+ * @LastEditors: Wangyl
+ * @LastEditTime: 2022-04-13 00:02:42
 -->
 <template>
   <div>
@@ -426,7 +426,6 @@
   .el-card{
     width: 300px;
     height: 350px;
-    /*margin-left: 55px;*/
     margin-left: 230px;
     margin-top: 25px;
     border: #74b9ff solid 1px;
