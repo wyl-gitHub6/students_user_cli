@@ -1,3 +1,10 @@
+/*
+ * @Description: 路由
+ * @Author: Wangyl
+ * @Date: 2021-10-16 21:44:42
+ * @LastEditors: Wangyl
+ * @LastEditTime: 2022-04-14 20:53:19
+ */
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [

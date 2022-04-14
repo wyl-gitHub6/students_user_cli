@@ -3,7 +3,7 @@
  * @Author: Wangyl
  * @Date: 2021-11-06 13:26:27
  * @LastEditors: Wangyl
- * @LastEditTime: 2022-04-13 00:02:42
+ * @LastEditTime: 2022-04-14 21:03:09
 -->
 <template>
   <div>
@@ -16,7 +16,7 @@
       >
         <el-card :body-style="{ padding: '10px' }">
           <img
-                  :src=item.courseImg
+                  :src=url+item.courseImg
                   class="image"
           />
           <div style="padding: 14px;">
@@ -178,9 +178,10 @@
 
 <script>
   import request from '../utils/request'
-  import { ElMessage } from 'element-plus';
+  import { ElMessage } from 'element-plus'
   import html2Canvas from 'html2canvas'
   import JsPDF from 'jspdf'
+  import { useStore } from "vuex";
 
   export default {
     name: "Score",
@@ -208,6 +209,7 @@
         state:'',
         idStr:'pdfDom',
         title:'学生成绩',
+        url:useStore().state.url,
 
         rules: {
           usualGrade: [

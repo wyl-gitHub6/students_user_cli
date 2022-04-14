@@ -3,7 +3,7 @@
  * @Author: Wangyl
  * @Date: 2021-11-20 15:42:12
  * @LastEditors: Wangyl
- * @LastEditTime: 2022-04-13 22:42:29
+ * @LastEditTime: 2022-04-14 21:11:17
 -->
 
 <template>
@@ -57,7 +57,9 @@
 </template>
 
 <script>
-  import {ElMessage} from 'element-plus';
+  import {ElMessage} from 'element-plus'
+  import { useStore } from "vuex";
+
   export default {
     name: "TeacherChat",
     data(){
@@ -79,6 +81,7 @@
         ids:[],
         number:"0",
         model:false,
+        url:useStore().state.chatUrl,
       }
     },
     methods: {
@@ -148,8 +151,7 @@
         this.count++
         //判断当前浏览器是否支持WebSocket
         if ('WebSocket' in window) {
-          //this.websocket = new WebSocket("ws://localhost:8080/websocket/" + this.username);
-           this.websocket = new WebSocket("ws://192.168.153.133:9000/websocket/" + this.username);
+          this.websocket = new WebSocket(this.url + this.username);
         } else {
           alert('Not support websocket')
         }

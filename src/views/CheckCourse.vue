@@ -2,8 +2,8 @@
  * @Description: 学生选课
  * @Author: wyl
  * @Date: 2021-10-17 20:37:32
- * @LastEditors: wyl
- * @LastEditTime: 2022-03-26 23:34:24
+ * @LastEditors: Wangyl
+ * @LastEditTime: 2022-04-14 21:01:32
 -->
 <template>
 
@@ -31,7 +31,7 @@
               placement="top"
       >
       <el-card shadow="hover" :body-style="{ padding: '10px'}">
-        <img :src="item.courseImg" class="image" />
+        <img :src="url+item.courseImg" class="image" />
         <h2>{{item.courseName}}</h2>
         <el-row>
           <el-col :span="12" :offset="6">
@@ -58,6 +58,7 @@
 <script>
   import request from "../utils/request";
   import { ElMessage } from 'element-plus';
+  import { useStore } from "vuex";
 
   export default {
     name: "CheckCourse",
@@ -67,6 +68,7 @@
         courseList:[],
         num:1,
         student:JSON.parse(sessionStorage.getItem("student")),
+        url:useStore().state.url,
       }
     },
     methods:{

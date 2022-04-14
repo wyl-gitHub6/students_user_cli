@@ -3,7 +3,7 @@
  * @Author: Wangyl
  * @Date: 2021-11-21 10:10:31
  * @LastEditors: Wangyl
- * @LastEditTime: 2022-03-28 21:35:41
+ * @LastEditTime: 2022-04-14 21:00:08
 -->
 
 <template>
@@ -74,6 +74,8 @@ import VueCropper from "vue-cropperjs";//图片裁剪
 import "cropperjs/dist/cropper.css";
 import request from "../utils/request";
 import {ElMessage} from "element-plus";
+import { useStore } from "vuex";
+
 export default {
     name: "teacher",
     components: {
@@ -130,7 +132,7 @@ export default {
             })
         };
 
-        const avatarImg = ref(teacher.teacherImg);
+        const avatarImg = ref(useStore().state.url+teacher.teacherImg);
         const imgSrc = ref("");
         const cropImg = ref("");
         const dialogVisible = ref(false);

@@ -3,7 +3,7 @@
  * @Author: Wangyl
  * @Date: 2021-11-21 10:10:05
  * @LastEditors: Wangyl
- * @LastEditTime: 2022-03-28 21:35:00
+ * @LastEditTime: 2022-04-14 20:55:19
 -->
 
 <template>
@@ -74,6 +74,7 @@ import VueCropper from "vue-cropperjs";
 import "cropperjs/dist/cropper.css";
 import request from "../utils/request";
 import {ElMessage} from "element-plus";
+import { useStore } from "vuex";
 export default {
     name: "student",
     components: {
@@ -82,6 +83,7 @@ export default {
     setup() {
         const student = JSON.parse(sessionStorage.getItem("student"))
         const name = student.studentName;
+
         let form = reactive({
             old: "",
             new: "",
@@ -130,7 +132,7 @@ export default {
             })
         };
 
-        const avatarImg = ref(student.studentImg);
+        const avatarImg = ref(useStore().state.url+student.studentImg);
         const imgSrc = ref("");
         const cropImg = ref("");
         const dialogVisible = ref(false);
