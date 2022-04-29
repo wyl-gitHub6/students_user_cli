@@ -3,14 +3,14 @@
  * @Author: Wangyl
  * @Date: 2021-11-06 13:26:27
  * @LastEditors: Wangyl
- * @LastEditTime: 2022-04-14 21:03:09
+ * @LastEditTime: 2022-04-27 23:39:58
 -->
 <template>
   <div>
     <el-row>
       <el-col
               :span="8"
-              v-for="(item, index) in courseList"
+              v-for="(item) in courseList"
               :key="item"
               :offset="2"
       >
@@ -70,27 +70,49 @@
               append-to-body
               center
       >
+      <el-scrollbar ref="scrollOne" height="300px" always @scroll="scrollOne">
         <el-form :model="score"
-                 :rules="rules"
                   ref="score">
-          <el-form-item label="平时成绩" :label-width="formLabelWidth" prop="usualGrade">
-            <el-input v-model="score.usualGrade" @input="test" autocomplete="off"></el-input>
+          <el-form-item label="平时成绩" :label-width="formLabelWidth" prop="usualGrade" :rules="[
+                  { required: true, message: '平时成绩不能为空'},
+                  { type: 'number', message: '必须为数字值'}]">
+            <el-input v-model.number="score.usualGrade" input-style="width:92%"></el-input>
           </el-form-item>
-          <el-form-item label="考试成绩" :label-width="formLabelWidth" prop="testGrade">
-            <el-input v-model="score.testGrade" @input="test" autocomplete="off"></el-input>
+          <el-form-item label="期末成绩" :label-width="formLabelWidth" prop="testGrade" :rules="[
+                  { required: true, message: '期末成绩不能为空'},
+                  { type: 'number', message: '必须为数字值'}]">
+            <el-input v-model.number="score.testGrade" input-style="width:92%"></el-input>
           </el-form-item>
-          <el-form-item label="最终成绩" :label-width="formLabelWidth">
-            <el-input v-model="score.scoreGrade" autocomplete="off" readonly></el-input>
+          
+          <!-- 生成阶段成绩 -->
+          <el-form-item
+                v-for="(domain, index) in score.domains"
+                :label="'阶段成绩' + (index+1)"
+                :label-width="formLabelWidth"
+                :key="domain.key"
+                :prop="'domains.' + index + '.value'"
+                :rules="[
+                  {required: true, message: '阶段成绩不能为空'},
+                  { type: 'number', message: '必须为数字值'}]"
+              >
+              <el-row>
+                <el-col :span="16"><el-input v-model.number="domain.value"></el-input></el-col>
+                <el-col :span="1"></el-col>
+                <el-col :span="7"><el-button @click.prevent="removeDomain(domain)">删除</el-button></el-col>
+              </el-row>
+               
           </el-form-item>
+          <div width = "100px">
+            <el-button style="margin-left: 50px;" type="primary" @click="entry('score')">录 入</el-button>
+            <el-button style="margin-left: 30px;" type="success" @click="addDomain">新增阶段成绩</el-button>
+            <el-button style="margin-left: 30px;" @click="innerVisible = false">取 消</el-button>
+          </div>
+
         </el-form>
-        <template #footer>
-          <span class="dialog-footer">
-            <el-button type="primary" @click="entry('score')">确 定</el-button>
-            <el-button @click="innerVisible = false">取 消</el-button>
-          </span>
-        </template>
+        </el-scrollbar> 
       </el-dialog>
 
+    <el-scrollbar ref="scrollTwo" height="500px" always @scroll="scrollTwo">  
       <el-table
               :data="studentTable.filter(data => !studentSearch || data.studentName.toLowerCase().includes(studentSearch.toLowerCase()))"
               style="width: 100%"
@@ -117,13 +139,14 @@
         </el-table-column>
         <el-table-column align="right">
           <template #header>
-            <el-input v-model="studentSearch" size="mini" placeholder="输入学生姓名搜索" />
+            <el-input v-model="studentSearch" size="mini" placeholder="按姓名搜索" />
           </template>
           <template #default="scope">
-            <el-button type="primary" @click="innerVisible = true,score={usualGrade:0,testGrade:0,scoreGrade:0,studentId:'',courseId:''},goEntry(scope.row)" plain>录入成绩</el-button>
+            <el-button type="primary" @click="goEntry(scope.row)" plain>录入成绩</el-button>
           </template>
         </el-table-column>
       </el-table>
+    </el-scrollbar> 
     </el-dialog>
 
     <!-- 查看成绩弹窗 -->
@@ -199,9 +222,10 @@
         studentSearch:'',
         isShow:false,
         studentTable:[],
+        // 关闭录入成绩弹窗
         innerVisible:false,
-        score:{usualGrade:0,testGrade:0,scoreGrade:0,studentId:'',courseId:''},
-        formLabelWidth: '80px',
+        score:{usualGrade:0,testGrade:0,studentId:'',courseId:'',domains: [{value: ''}],},
+        formLabelWidth: '100px',
         courseId:'',
         studentId:'',
         classesId:'',
@@ -210,38 +234,15 @@
         idStr:'pdfDom',
         title:'学生成绩',
         url:useStore().state.url,
-
-        rules: {
-          usualGrade: [
-            { required: true, message: '不可为空', trigger: 'blur' },
-            {
-              validator:function (rule,value,callback) {
-                if (/^[0-9]+([.]{1}[0-9]+){0,1}$/.test(value)==false){
-                  callback(new Error("请输入整数"));
-                }else {
-                  callback();
-                }
-              },
-              trigger: "blur"
-            }
-          ],
-          testGrade:[
-            { required: true, message: '不可为空', trigger: 'blur' },
-            {
-              validator:function (rule,value,callback) {
-                if (/^[0-9]+([.]{1}[0-9]+){0,1}$/.test(value)==false){
-                  callback(new Error("请输入整数"));
-                }else {
-                  callback();
-                }
-              },
-              trigger: "blur"
-            }
-          ]
-        }
       }
     },
     methods:{
+      scrollOne({ scrollTop }) {
+        this.value = scrollTop
+      },
+      scrollTwo({ scrollTop }) {
+        this.value = scrollTop
+      },
       /*导出成绩*/
       exportFile(idStr, title){
         html2Canvas(document.querySelector('#' + idStr), {
@@ -341,7 +342,20 @@
         })
       },
       goEntry(row){
+        this.innerVisible = true
+        this.score={usualGrade:0,testGrade:0,studentId:'',courseId:'',domains: [{ value: ''}],}
         this.studentId = row.studentId
+      },
+      removeDomain(item) {
+        var index = this.score.domains.indexOf(item)
+        if (index !== -1) {
+          this.score.domains.splice(index, 1)
+        }
+      },
+      addDomain() {
+        this.score.domains.push({
+          value: ''
+        });
       },
       /*录入成绩*/
       entry(formName){
@@ -405,12 +419,6 @@
             return
           }
         })
-      }
-    },
-    computed:{
-      /*计算最终成绩*/
-      test(){
-        this.score.scoreGrade = this.score.usualGrade*0.3+this.score.testGrade*0.7
       }
     },
     created() {
