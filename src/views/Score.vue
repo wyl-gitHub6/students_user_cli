@@ -3,7 +3,7 @@
  * @Author: Wangyl
  * @Date: 2021-11-06 13:26:27
  * @LastEditors: Wangyl
- * @LastEditTime: 2022-04-27 23:39:58
+ * @LastEditTime: 2022-04-30 15:31:03
 -->
 <template>
   <div>
@@ -36,32 +36,33 @@
 
     <!--查看班级弹框-->
     <el-dialog title="班级信息" v-model="classesShow" width="70%" center>
-      <el-table
-              :data="tableData.filter(data => !classesSearch || data.classesName.toLowerCase().includes(classesSearch.toLowerCase()))"
-              style="width: 100%"
-      >
-        <el-table-column prop="id" label="Id" v-if="isShow"></el-table-column>
-        <el-table-column prop="classesNum" label="班级编号"></el-table-column>
-        <el-table-column prop="classesName" label="班级名称"> </el-table-column>
-        <el-table-column prop="classesAllNumber" label="人数限额"> </el-table-column>
-        <el-table-column prop="grade.professional.college.collegeName" label="所属院系"> </el-table-column>
-        <el-table-column prop="grade.professional.professionalName" label="所属专业"> </el-table-column>
-        <el-table-column prop="grade.gradeName" label="所属年级"> </el-table-column>
-        <el-table-column prop="teacher.teacherName" label="教导教师"> </el-table-column>
-        <el-table-column align="right">
-          <template #header>
-            <el-input v-model="classesSearch" size="mini" placeholder="输入班级名称搜索" />
-          </template>
-          <template #default="scope">
-            <el-button type="primary" @click="this.classesShow=false,findStudentByClasses(scope.row.classesId)" plain>查看学生</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+      <el-scrollbar ref="scrollOne" height="500px" always @scroll="scrollFour">
+        <el-table
+                :data="tableData.filter(data => !classesSearch || data.classesName.toLowerCase().includes(classesSearch.toLowerCase()))"
+                style="width: 100%"
+        >
+          <el-table-column prop="id" label="Id" v-if="isShow"></el-table-column>
+          <el-table-column prop="classesNum" label="班级编号"></el-table-column>
+          <el-table-column prop="classesName" label="班级名称"> </el-table-column>
+          <el-table-column prop="classesAllNumber" label="人数限额"> </el-table-column>
+          <el-table-column prop="grade.professional.college.collegeName" label="所属院系"> </el-table-column>
+          <el-table-column prop="grade.professional.professionalName" label="所属专业"> </el-table-column>
+          <el-table-column prop="grade.gradeName" label="所属年级"> </el-table-column>
+          <el-table-column prop="teacher.teacherName" label="教导教师"> </el-table-column>
+          <el-table-column align="right">
+            <template #header>
+              <el-input v-model="classesSearch" size="mini" placeholder="输入班级名称搜索" />
+            </template>
+            <template #default="scope">
+              <el-button type="primary" @click="this.classesShow=false,findStudentByClasses(scope.row.classesId)" plain>查看学生</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-scrollbar>  
     </el-dialog>
 
     <!--查看学生弹窗-->
     <el-dialog title="学生信息" v-model="studentShow" width="70%" center>
-
       <!--录入成绩弹窗-->
       <el-dialog
               width="25%"
@@ -112,41 +113,41 @@
         </el-scrollbar> 
       </el-dialog>
 
-    <el-scrollbar ref="scrollTwo" height="500px" always @scroll="scrollTwo">  
-      <el-table
-              :data="studentTable.filter(data => !studentSearch || data.studentName.toLowerCase().includes(studentSearch.toLowerCase()))"
-              style="width: 100%"
-      >
-        <el-table-column prop="id" label="Id" v-if="isShow"></el-table-column>
-        <el-table-column prop="studentNum" label="学号"></el-table-column>
-        <el-table-column prop="studentName" label="姓名"> </el-table-column>
-        <el-table-column prop="studentAge" label="年龄"> </el-table-column>
-        <el-table-column prop="studentNational" label="民族"> </el-table-column>
-        <el-table-column prop="studentSex" label="性别">
-          <template #default="scope">
-            <span v-if="scope.row.studentSex == 0" style="color: #20a0ff">男</span>
-            <span v-if="scope.row.studentSex == 1" style="color: #1abc9c">女</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="studentCard" label="身份证号" width="170px;"> </el-table-column>
-        <el-table-column prop="studentEmail" label="邮箱" width="170px;"> </el-table-column>
-        <el-table-column prop="studentPhone" label="手机号" > </el-table-column>
-        <el-table-column prop="classes.classesName" label="所在班级">
-          <template #default="scope">
-            <span v-if="scope.row.classes.classesName == null" style="color: #20a0ff">未分班</span>
-            <span v-if="scope.row.classes.classesName != null" style="color: #1abc9c">{{scope.row.classes.classesName}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="right">
-          <template #header>
-            <el-input v-model="studentSearch" size="mini" placeholder="按姓名搜索" />
-          </template>
-          <template #default="scope">
-            <el-button type="primary" @click="goEntry(scope.row)" plain>录入成绩</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-scrollbar> 
+      <el-scrollbar ref="scrollTwo" height="500px" always @scroll="scrollTwo">  
+        <el-table
+                :data="studentTable.filter(data => !studentSearch || data.studentName.toLowerCase().includes(studentSearch.toLowerCase()))"
+                style="width: 100%"
+        >
+          <el-table-column prop="id" label="Id" v-if="isShow"></el-table-column>
+          <el-table-column prop="studentNum" label="学号"></el-table-column>
+          <el-table-column prop="studentName" label="姓名"> </el-table-column>
+          <el-table-column prop="studentAge" label="年龄"> </el-table-column>
+          <el-table-column prop="studentNational" label="民族"> </el-table-column>
+          <el-table-column prop="studentSex" label="性别">
+            <template #default="scope">
+              <span v-if="scope.row.studentSex == 0" style="color: #20a0ff">男</span>
+              <span v-if="scope.row.studentSex == 1" style="color: #1abc9c">女</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="studentCard" label="身份证号" width="170px;"> </el-table-column>
+          <el-table-column prop="studentEmail" label="邮箱" width="170px;"> </el-table-column>
+          <el-table-column prop="studentPhone" label="手机号" > </el-table-column>
+          <el-table-column prop="classes.classesName" label="所在班级">
+            <template #default="scope">
+              <span v-if="scope.row.classes.classesName == null" style="color: #20a0ff">未分班</span>
+              <span v-if="scope.row.classes.classesName != null" style="color: #1abc9c">{{scope.row.classes.classesName}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="right">
+            <template #header>
+              <el-input v-model="studentSearch" size="mini" placeholder="按姓名搜索" />
+            </template>
+            <template #default="scope">
+              <el-button type="primary" @click="goEntry(scope.row)" plain>录入成绩</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-scrollbar> 
     </el-dialog>
 
     <!-- 查看成绩弹窗 -->
@@ -156,44 +157,46 @@
           <el-button type="primary" plain @click="exportFile(this.idStr,this.title)">导出成绩</el-button>
         </div>
       </template>
-      <el-table id="pdfDom"
-              :data="scoreTable.filter(data => !scoreSearch || data.student.studentName.toLowerCase().includes(scoreSearch.toLowerCase()))"
-              style="width: 100%"
-      >
-        <el-table-column prop="student.studentNum" label="学生学号"> </el-table-column>
-        <el-table-column prop="student.studentName" label="学生姓名"> </el-table-column>
-        <el-table-column prop="course.courseName" label="课程名称" width="200px"> </el-table-column>
-        <el-table-column prop="course.courseCredit" label="课程学分"> </el-table-column>
-        <el-table-column prop="usualGrade" label="平时成绩">
-          <template #default="scope">
-            <span v-if="scope.row.usualGrade == null">未录入</span>
-            <span v-if="scope.row.usualGrade != null">{{scope.row.usualGrade}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="testGrade" label="考试成绩">
-          <template #default="scope">
-            <span v-if="scope.row.testGrade == null">未录入</span>
-            <span v-if="scope.row.testGrade != null">{{scope.row.testGrade}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="scoreGrade" label="最终成绩">
-          <template #default="scope">
-            <span v-if="scope.row.scoreGrade == null">未录入</span>
-            <span v-if="scope.row.scoreGrade != null">{{scope.row.scoreGrade}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="credit" label="所得学分">
-          <template #default="scope">
-            <span v-if="scope.row.credit == null">未录入</span>
-            <span v-if="scope.row.credit != null">{{scope.row.credit}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="right">
-          <template #header>
-            <el-input v-model="scoreSearch" placeholder="输入学生姓名" />
-          </template>
-        </el-table-column>
-      </el-table>
+      <el-scrollbar ref="scrollOne" height="500px" always @scroll="scrollThree">
+        <el-table id="pdfDom"
+                :data="scoreTable.filter(data => !scoreSearch || data.student.studentName.toLowerCase().includes(scoreSearch.toLowerCase()))"
+                style="width: 100%"
+        >
+          <el-table-column prop="student.studentNum" label="学生学号"> </el-table-column>
+          <el-table-column prop="student.studentName" label="学生姓名"> </el-table-column>
+          <el-table-column prop="course.courseName" label="课程名称" width="200px"> </el-table-column>
+          <el-table-column prop="course.courseCredit" label="课程学分"> </el-table-column>
+          <el-table-column prop="usualGrade" label="平时成绩">
+            <template #default="scope">
+              <span v-if="scope.row.usualGrade == null">未录入</span>
+              <span v-if="scope.row.usualGrade != null">{{scope.row.usualGrade}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="testGrade" label="考试成绩">
+            <template #default="scope">
+              <span v-if="scope.row.testGrade == null">未录入</span>
+              <span v-if="scope.row.testGrade != null">{{scope.row.testGrade}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="scoreGrade" label="最终成绩">
+            <template #default="scope">
+              <span v-if="scope.row.scoreGrade == null">未录入</span>
+              <span v-if="scope.row.scoreGrade != null">{{scope.row.scoreGrade}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="credit" label="所得学分">
+            <template #default="scope">
+              <span v-if="scope.row.credit == null">未录入</span>
+              <span v-if="scope.row.credit != null">{{scope.row.credit}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="right">
+            <template #header>
+              <el-input v-model="scoreSearch" placeholder="输入学生姓名" />
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-scrollbar>
     </el-dialog>
 
   </div>
@@ -237,10 +240,20 @@
       }
     },
     methods:{
+      // // 滚动条
       scrollOne({ scrollTop }) {
         this.value = scrollTop
       },
       scrollTwo({ scrollTop }) {
+        this.value = scrollTop
+      },
+      scrollThree({ scrollTop }) {
+        this.value = scrollTop
+      },
+      scrollFour({ scrollTop }) {
+        this.value = scrollTop
+      },
+      scrollFive({ scrollTop }) {
         this.value = scrollTop
       },
       /*导出成绩*/

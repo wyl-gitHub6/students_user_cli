@@ -3,7 +3,7 @@
  * @Author: Wangyl
  * @Date: 2021-11-27 11:56:22
  * @LastEditors: Wangyl
- * @LastEditTime: 2022-04-13 22:38:09
+ * @LastEditTime: 2022-04-30 15:10:45
 -->
 
 <template>
@@ -50,7 +50,7 @@
         },
         tooltip: {},
         legend: {
-          data:['优秀','良好','及格','不及格']
+          data:['优秀(90-100)','良好(80-99)','中等(70-89)','及格(60-69)','不及格(0-59)'],
         },
         xAxis: {
           data: [],
@@ -70,22 +70,27 @@
         },
         series: [
           {
-            name:'优秀',
+            name:'优秀(90-100)',
             type: 'bar',
             data: []
           },
           {
-            name:'良好',
+            name:'良好(80-99)',
+            type: 'bar',
+            data: []
+          },
+           {
+            name:'中等(70-89)',
             type: 'bar',
             data: []
           },
           {
-            name:'及格',
+            name:'及格(60-69)',
             type: 'bar',
             data: []
           },
           {
-            name:'不及格',
+            name:'不及格(0-59)',
             type: 'bar',
             data: []
           }
@@ -98,11 +103,20 @@
     methods:{
       load(){
         request.get('/api/score/statistical/'+this.teacher.teacherId).then(res=>{
-          this.option.xAxis.data = res.data.courseName
-          this.option.series[0].data = res.data.yx
-          this.option.series[1].data = res.data.lh
-          this.option.series[2].data = res.data.jg
-          this.option.series[3].data = res.data.bjg
+
+          if( res.code == 0){
+            this.option.xAxis.data = res.data.courseName
+            this.option.series[0].data = res.data.yx
+            this.option.series[1].data = res.data.lh
+            this.option.series[2].data = res.data.zd
+            this.option.series[3].data = res.data.jg
+            this.option.series[4].data = res.data.bjg
+          }else{
+            ElMessage.error({
+                message: res.message,
+                type: 'error'
+            });
+          }
         })
       }
     },
