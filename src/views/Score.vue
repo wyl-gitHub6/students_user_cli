@@ -3,7 +3,7 @@
  * @Author: Wangyl
  * @Date: 2021-11-06 13:26:27
  * @LastEditors: Wangyl
- * @LastEditTime: 2022-04-30 15:31:03
+ * @LastEditTime: 2022-05-01 11:50:59
 -->
 <template>
   <div>
@@ -154,7 +154,7 @@
     <el-dialog v-model="scoreShow" width="70%" center>
       <template #title>
         <div>
-          <el-button type="primary" plain @click="exportFile(this.idStr,this.title)">导出成绩</el-button>
+          <el-button type="primary" plain @click="show = false,exportFile(this.idStr,this.title)">导出成绩</el-button>
         </div>
       </template>
       <el-scrollbar ref="scrollOne" height="500px" always @scroll="scrollThree">
@@ -190,7 +190,7 @@
               <span v-if="scope.row.credit != null">{{scope.row.credit}}</span>
             </template>
           </el-table-column>
-          <el-table-column align="right">
+          <el-table-column v-if="show" align="right">
             <template #header>
               <el-input v-model="scoreSearch" placeholder="输入学生姓名" />
             </template>
@@ -205,9 +205,9 @@
 <script>
   import request from '../utils/request'
   import { ElMessage } from 'element-plus'
+  import { useStore } from "vuex";
   import html2Canvas from 'html2canvas'
   import JsPDF from 'jspdf'
-  import { useStore } from "vuex";
 
   export default {
     name: "Score",
@@ -236,6 +236,7 @@
         state:'',
         idStr:'pdfDom',
         title:'学生成绩',
+        show:true,
         url:useStore().state.url,
       }
     },
@@ -256,45 +257,48 @@
       scrollFive({ scrollTop }) {
         this.value = scrollTop
       },
-      /*导出成绩*/
-      exportFile(idStr, title){
-        html2Canvas(document.querySelector('#' + idStr), {
-          // allowTaint: true,
-          useCORS: true
-        }).then(function(canvas) {
-          let contentWidth = canvas.width
-          let contentHeight = canvas.height
-          //一页pdf显示html页面生成的canvas高度;
-          let pageHeight = contentWidth / 592.28 * 841.89
-          //生成pdf的html页面高度
-          let leftHeight = contentHeight
-          //页面偏移
-          let position = 0
-          //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
-          let imgWidth = 595.28
-          let imgHeight = 592.28 / contentWidth * contentHeight
-          // canvas.crossOrigin="anonymous";
-          let pageData = canvas.toDataURL('image/jpeg', 1.0);
-
-          let PDF = new JsPDF('', 'pt', 'a4')
-          //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
-          //当内容未超过pdf一页显示的范围，无需分页
-          if (leftHeight < pageHeight) {
-            PDF.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight)
-          } else {
-            while (leftHeight > 0) {
-              //arg3-->距离左边距;arg4-->距离上边距;arg5-->宽度;arg6-->高度
-              PDF.addImage(pageData, 'JPEG', 50, 50, imgWidth, imgHeight)
-              leftHeight -= pageHeight
-              position -= 841.89
-              if (leftHeight > 0) {
+      // 导出成绩
+      exportFile(idStr,title){
+        setTimeout(() => {
+          //获取当前页面的html
+          html2Canvas(document.getElementById(idStr), {
+            allowTaint: true,
+            useCORS: true,
+            taintTest: false,
+            scale: 2
+          }).then(function (canvas) {
+            //转换成图片
+            let contentWidth = canvas.width;
+            let contentHeight = canvas.height;
+            //一页pdf显示html页面生成的canvas高度;
+            let pageHeight = contentWidth / 592.28 * 841.89;
+            //未生成pdf的html页面高度
+            let leftHeight = contentHeight;
+            //页面偏移
+            let position = 0;
+            //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+            let imgWidth = 595.28;
+            let imgHeight = 592.28 / contentWidth * contentHeight;
+            let pageData = canvas.toDataURL('image/jpeg', 1.0);
+            let pdf = new JsPDF('', 'pt', 'a4');
+            //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+            //当内容未超过pdf一页显示的范围，无需分页
+            if (leftHeight < pageHeight) {
+              pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight);
+            } else {
+              while (leftHeight > 0) {
+                pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                leftHeight -= pageHeight;
+                position -= 841.89;
                 //避免添加空白页
-                PDF.addPage()
+                if (leftHeight > 0) {
+                  pdf.addPage();
+                }
               }
-            }
           }
-          PDF.save(title + '.pdf')
-        })
+          pdf.save(title + '.pdf');
+        });
+        },100);
       },
       /*查看班级*/
       findClasses(courseId){
@@ -331,7 +335,6 @@
           this.studentShow = true
         })
       },
-
       /*查看选修课学生*/
       findStudent(courseId){
         request.get('/api/score/findByCourse',{
