@@ -3,7 +3,7 @@
  * @Author: Wangyl
  * @Date: 2021-11-21 20:50:57
  * @LastEditors: Wangyl
- * @LastEditTime: 2022-03-28 21:34:43
+ * @LastEditTime: 2022-05-03 16:04:43
 -->
 
 <template>
@@ -41,7 +41,6 @@
 
 <script>
   import request from "../utils/request";
-  import {ElMessage} from "element-plus";
 
   export default {
     name: "FindCourse",

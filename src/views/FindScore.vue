@@ -3,7 +3,7 @@
  * @Author: Wangyl
  * @Date: 2021-11-21 11:26:55
  * @LastEditors: Wangyl
- * @LastEditTime: 2022-05-01 11:49:48
+ * @LastEditTime: 2022-05-03 18:00:00
 -->
 
 <template>
@@ -176,8 +176,8 @@
         }
       }).then(res=>{
         if (res.code == 0){
-          this.bTable = Object.values(res.data)[0]
-          this.xTable = Object.values(res.data)[1]
+          this.xTable = Object.values(res.data)[0]
+          this.bTable = Object.values(res.data)[1]
         }else{
           ElMessage.error({
             message: res.message,
