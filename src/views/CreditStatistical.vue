@@ -3,7 +3,7 @@
  * @Author: Wangyl
  * @Date: 2022-03-17 21:37:54
  * @LastEditors: Wangyl
- * @LastEditTime: 2022-04-13 22:43:23
+ * @LastEditTime: 2022-05-08 20:58:13
 -->
 
 <template>
@@ -83,6 +83,7 @@
         request.get("/api/score/findCreditStatistical/"+this.teacher.teacherId).then(res=>{
           if (res.code == 0){
             this.option.series[0].data = res.data.credit
+            console.log(res.data.credit)
             this.option.xAxis.data = res.data.courseName
           }
         })

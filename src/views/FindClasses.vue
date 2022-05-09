@@ -3,7 +3,7 @@
  * @Author: Wangyl
  * @Date: 2021-11-24 22:18:46
  * @LastEditors: Wangyl
- * @LastEditTime: 2022-04-30 15:32:02
+ * @LastEditTime: 2022-05-07 20:53:14
 -->
 
 <template>
@@ -104,13 +104,13 @@
       },
       findStudent(val){
         this.studentTable = []
-        request.get('/api/student/findByClassesId',{
+        request.get('/api/student/findStudentByClassesId',{
           params:{
             classesId:val
           }
         }).then(res=>{
           this.studentShow = true
-          this.studentTable = res.data.list
+          this.studentTable = res.data
         })
       },
       load(){
